@@ -67,9 +67,6 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-        //GridImageAdapter = new ArrayAdapter<String>(getActivity(),R.layout.fragment_main, R.id.gridview,new ArrayList<ImageAdapter>());
-
         imageAdapter = new ImageArrayAdapter(getActivity(), movieList);
         GridView gridview = (GridView) rootView.findViewById(R.id.gridview);
         gridview.setAdapter(imageAdapter);
@@ -78,14 +75,8 @@ public class MainActivityFragment extends Fragment {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-                /*Toast.makeText(getActivity(), "" + movieList.get(position).getVote(),
-                        Toast.LENGTH_SHORT).show();*/
                 Intent intent = new Intent(getActivity(), DetailActivity.class)
-                        .putExtra("movie_name",movieList.get(position).getMovieName())
-                        .putExtra("movie_poster",movieList.get(position).getPosterPath())
-                        .putExtra("movie_release_date",movieList.get(position).getReleaseDate())
-                        .putExtra("movie_vote",String.valueOf(movieList.get(position).getVote()))
-                        .putExtra("movie_overview",movieList.get(position).getOverView());
+                        .putExtra("MovieData", movieList.get(position));
                 startActivity(intent);
             }
         });

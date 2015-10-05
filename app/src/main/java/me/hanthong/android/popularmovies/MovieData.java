@@ -1,12 +1,26 @@
 package me.hanthong.android.popularmovies;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Comparator;
 
 /**
  * Created by peet29 on 28/9/2558.
  */
-public class MovieData implements Comparable<MovieData> {
+public class MovieData implements Comparable<MovieData>, Parcelable {
 
+    public static final Creator<MovieData> CREATOR = new Creator<MovieData>() {
+        @Override
+        public MovieData createFromParcel(Parcel in) {
+            return new MovieData(in);
+        }
+
+        @Override
+        public MovieData[] newArray(int size) {
+            return new MovieData[size];
+        }
+    };
     private double movieID = 0.0;
     private double popularity = 0.0;
     private double vote = 0.0;
@@ -15,7 +29,7 @@ public class MovieData implements Comparable<MovieData> {
     private String overView = null;
     private String releaseDate = null;
 
-    public MovieData(double id,double popNum,double voteNum,String name,String imagePath,String overview,String date ) {
+    public MovieData(double id, double popNum, double voteNum, String name, String imagePath, String overview, String date) {
         this.movieID = id;
         this.popularity = popNum;
         this.vote = voteNum;
@@ -25,21 +39,25 @@ public class MovieData implements Comparable<MovieData> {
         this.releaseDate = date;
     }
 
-    public MovieData()
-    {
-
+    protected MovieData(Parcel in) {
+        movieID = in.readDouble();
+        popularity = in.readDouble();
+        vote = in.readDouble();
+        movieName = in.readString();
+        posterPath = in.readString();
+        overView = in.readString();
+        releaseDate = in.readString();
     }
 
     /*
-     * Sorting on popularity is natural sorting for Order.
-     */
+         * Sorting on popularity is natural sorting for Order.
+         */
     @Override
     public int compareTo(MovieData o) {
         return this.popularity < o.popularity ? 1 : (this.popularity > o.popularity ? -1 : 0);
     }
 
-    public double getMovieID()
-    {
+    public double getMovieID() {
         return movieID;
     }
 
@@ -47,12 +65,11 @@ public class MovieData implements Comparable<MovieData> {
         this.movieID = movieID;
     }
 
-    public double getPopularity()
-    {
+    public double getPopularity() {
         return popularity;
     }
-    public double getVote()
-    {
+
+    public double getVote() {
         return vote;
     }
 
@@ -60,8 +77,7 @@ public class MovieData implements Comparable<MovieData> {
         this.vote = vote;
     }
 
-    public String getMovieName()
-    {
+    public String getMovieName() {
         return movieName;
     }
 
@@ -69,8 +85,7 @@ public class MovieData implements Comparable<MovieData> {
         this.movieName = movieName;
     }
 
-    public String getPosterPath()
-    {
+    public String getPosterPath() {
         return posterPath;
     }
 
@@ -92,6 +107,22 @@ public class MovieData implements Comparable<MovieData> {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeDouble(movieID);
+        parcel.writeDouble(popularity);
+        parcel.writeDouble(vote);
+        parcel.writeString(movieName);
+        parcel.writeString(posterPath);
+        parcel.writeString(overView);
+        parcel.writeString(releaseDate);
     }
 
     public static class OrderByVote implements Comparator<MovieData> {
