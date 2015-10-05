@@ -8,7 +8,21 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class DetailActivity extends AppCompatActivity {
+
+    @Bind(R.id.text_movie_name)
+    TextView movieName;
+    @Bind(R.id.movie_release_date)
+    TextView movieReleaseDate;
+    @Bind(R.id.movie_rate)
+    TextView movieVote;
+    @Bind(R.id.movie_plot)
+    TextView movieOverView;
+    @Bind(R.id.image_movie_poster)
+    ImageView poster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +38,8 @@ public class DetailActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         Bundle data = getIntent().getExtras();
         MovieData movie = data.getParcelable("MovieData");
+        ButterKnife.bind(this);
 
-        TextView movieName = (TextView) findViewById(R.id.text_movie_name);
-        TextView movieReleaseDate = (TextView) findViewById(R.id.movie_release_date);
-        TextView movieVote = (TextView) findViewById(R.id.movie_rate);
-        TextView movieOverView = (TextView) findViewById(R.id.movie_plot);
-        ImageView poster = (ImageView) findViewById(R.id.image_movie_poster);
 
         if (movie != null) {
             movieName.setText(movie.getMovieName());
